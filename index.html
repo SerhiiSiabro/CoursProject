@@ -34,7 +34,11 @@
               <label for="date-time-end">
                 <span>Кінцева дата</span>
               </label>
-              <input id="date-time-end" type="date" value="2023-10-31" />
+              <input
+                disabled
+                id="date-time-end"
+                type="date"
+                value="2023-10-31" />
             </div>
             <div>
               <fieldset class="presets-time-interval">
@@ -70,7 +74,10 @@
               <fieldset class="option-units-measurement">
                 <legend>Оберіть одиницю виміру</legend>
                 <label for="option-units-days">Порахувати кількість днів</label>
-                <input type="radio" name="measurement" id="option-units-days" />
+                <input
+                  type="select"
+                  name="measurement"
+                  id="option-units-days" />
 
                 <label for="option-units-hours"
                   >Порахувати кількість годин</label
@@ -101,6 +108,7 @@
               <div class="place-for-result"></div>
             </div>
           </div>
+          <div>bu</div>
 
           <div class="tabs-content-holder"></div>
         </div>
