@@ -40,69 +40,29 @@
                 type="date"
                 value="2023-10-31" />
             </div>
-            <div>
-              <fieldset class="presets-time-interval">
-                <legend>оберіть проміжок часу</legend>
-                <label for="presets-week">тиждень</label>
-                <input type="radio" name="presets" id="presets-week" />
-                <label for="presets-month">місяць</label>
-                <input type="radio" name="presets" id="presets-month" />
-              </fieldset>
+            <div class="presets-time-interval">
+              <label for="time-interval">оберіть проміжок часу</label>
+              <div>
+                <button id="interval-week">тиждень</button>
+                <button id="interval-month">місяць</button>
+              </div>
             </div>
-            <div>
-              <fieldset class="options-count-variable">
-                <legend>оберіть як порахувати</legend>
-                <label for="options-count-all-days">Всі дні</label>
-                <input
-                  type="radio"
-                  name="variable"
-                  id="options-count-all-days" />
-                <label for="options-count-working-days">Будні дні</label>
-                <input
-                  type="radio"
-                  name="variable"
-                  id="options-count-working-days" />
-
-                <label for="options-count-weekend-days">Вихідні дні</label>
-                <input
-                  type="radio"
-                  name="variable"
-                  id="options-count-weekend-days" />
-              </fieldset>
+            <div class="options-count-variable">
+              <label for="count-variable">оберіть як порахувати</label>
+              <select name="count-variable" id="count-variable">
+                <option value="all-days">Всі дні</option>
+                <option value="working-days">Будні дні</option>
+                <option value="weekend-days">Вихідні дні</option>
+              </select>
             </div>
-            <div>
-              <fieldset class="option-units-measurement">
-                <legend>Оберіть одиницю виміру</legend>
-                <label for="option-units-days">Порахувати кількість днів</label>
-                <input
-                  type="select"
-                  name="measurement"
-                  id="option-units-days" />
-
-                <label for="option-units-hours"
-                  >Порахувати кількість годин</label
-                >
-                <input
-                  type="radio"
-                  name="measurement"
-                  id="option-units-hours" />
-
-                <label for="option-units-minutes"
-                  >Порахувати кількість хвилин</label
-                >
-                <input
-                  type="radio"
-                  name="measurement"
-                  id="option-units-minutes" />
-
-                <label for="option-units-seconds"
-                  >Порахувати кількість секунд</label
-                >
-                <input
-                  type="radio"
-                  name="measurement"
-                  id="option-units-seconds" />
-              </fieldset>
+            <div class="option-units-measurement">
+              <label for="units-measurement">Оберіть одиницю виміру</label>
+              <select name="units-measurement" id="units-measurement">
+                <option value="days">Порахувати кількість днів</option>
+                <option value="hours">Порахувати кількість годин</option>
+                <option value="minutes">Порахувати кількість хвилин</option>
+                <option value="seconds">Порахувати кількість секунд</option>
+              </select>
             </div>
             <div id="count-days-result">
               <div class="place-for-result"></div>
