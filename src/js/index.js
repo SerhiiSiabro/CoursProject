@@ -10,37 +10,39 @@ const dateTimeEnd = document.getElementById("date-time-end");
 const buttonWeek = document.getElementById("button-week");
 const buttonMonth = document.getElementById("button-month");
 
-function setTodayDate() {
-  const today = new Date();
-  return formatDate(today);
-}
 function formatDate(date) {
   const year = date.getFullYear();
-  let month = "" + (date.getMonth() + 1);
-  let day = "" + date.getDate();
+  let month = (date.getMonth() + 1).toString();
+  let day = date.getDate().toString();
 
   if (month.length < 2) {
-    month = "0" + month;
+    month = `0${month}`;
   }
   if (day.length < 2) {
-    day = "0" + day;
+    day = `0${day}`;
   }
   return `${year}-${month}-${day}`;
 }
 
-function addWeek() {
+function addExactNumberDays(number) {
   let dateStart = new Date(dateTimeStart.value);
-  const formatedNewDate = new Date(dateStart.setDate(dateStart.getDate() + 7));
-  dateTimeEnd.value = formatDate(formatedNewDate);
+  const formatedNewDate = new Date(
+    dateStart.setDate(dateStart.getDate() + number)
+  );
+  return formatDate(formatedNewDate);
+}
+
+function addWeek() {
+  dateTimeEnd.value = addExactNumberDays(7);
 }
 
 function addMonth() {
-  let dateStart = new Date(dateTimeStart.value);
-  const formatedNewDate = new Date(dateStart.setDate(dateStart.getDate() + 30));
-  dateTimeEnd.value = formatDate(formatedNewDate);
+  return (dateTimeEnd.value = addExactNumberDays(30));
 }
 
-dateTimeStart.value = setTodayDate();
-dateTimeEnd.value = setTodayDate();
+function checkInput() {
+  dateTimeEnd.disabled = false;
+}
 buttonWeek.addEventListener("click", addWeek);
 buttonMonth.addEventListener("click", addMonth);
+dateTimeStart.addEventListener("change", checkInput);
