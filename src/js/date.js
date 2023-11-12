@@ -64,7 +64,6 @@ export function countTimeBetweenDates(
 
   // множимо обрану опцію Дня та одиницю Часу:
   const multiplyOfOptions = daysOption * timePeriodOption;
-  console.log(multiplyOfOptions);
   return `${multiplyOfOptions} ${measurementValue}`;
 }
 

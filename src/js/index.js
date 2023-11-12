@@ -1,5 +1,6 @@
 import { checkInput } from "./date-period.js";
 import { countTimeBetweenDates } from "./date.js";
+import { setResultToStorage } from "./storage.js";
 
 const tabset = document.querySelector(".tabset");
 const tabsContentHolder = document.getElementsByClassName(".tab-time");
@@ -22,6 +23,16 @@ function submit() {
     measurementValue
   );
   result.innerText = countedValue;
+  const resultForStorage = {
+    startDay,
+    finishDay,
+    result: countedValue,
+  };
+  setResultToStorage(resultForStorage);
+  // createTable() {
+  //   const tableResult = document.getElementById('tableResult');
+  //   resultsFromStorage = getResultsFromStorage();
+  // };
 }
 
 submitButton.addEventListener("click", submit);
