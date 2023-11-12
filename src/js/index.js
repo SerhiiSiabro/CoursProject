@@ -42,6 +42,8 @@ function addMonth() {
 
 function checkInput() {
   dateTimeEnd.disabled = false;
+  // кінцева дата не може бути раніше ніж початкова
+  dateTimeEnd.min = dateTimeStart.value;
 }
 buttonWeek.addEventListener("click", addWeek);
 buttonMonth.addEventListener("click", addMonth);
