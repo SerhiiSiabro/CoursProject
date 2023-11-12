@@ -1,6 +1,6 @@
 import { checkInput } from "./date-period.js";
 import { countTimeBetweenDates } from "./date.js";
-import { setResultToStorage } from "./storage.js";
+import { setResultToStorage, resultsFromStorage } from "./storage.js";
 
 const tabset = document.querySelector(".tabset");
 const tabsContentHolder = document.getElementsByClassName(".tab-time");
@@ -29,10 +29,23 @@ function submit() {
     result: countedValue,
   };
   setResultToStorage(resultForStorage);
-  // createTable() {
-  //   const tableResult = document.getElementById('tableResult');
-  //   resultsFromStorage = getResultsFromStorage();
-  // };
+  const tableResult = document.getElementById("tableResult");
+  resultsFromStorage.forEach((result) => {
+    const newRow = document.createElement("tr");
+    tableResult.append(newRow);
+
+    let cell = document.createElement("td");
+    newRow.append(cell);
+    cell.innerText = result.startDay;
+
+    cell = document.createElement("td");
+    newRow.append(cell);
+    cell.innerText = result.finishDay;
+
+    cell = document.createElement("td");
+    newRow.append(cell);
+    cell.innerText = result.result;
+  });
 }
 
 submitButton.addEventListener("click", submit);
