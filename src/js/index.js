@@ -1,50 +1,28 @@
-"use strict";
+import { checkInput } from "./date-period.js";
+import { countTimeBetweenDates } from "./date.js";
 
 const tabset = document.querySelector(".tabset");
-const tabsContentHolder = document.getElementsByClassName(
-  ".tabs-content-holder"
-);
+const tabsContentHolder = document.getElementsByClassName(".tab-time");
 
-const dateTimeStart = document.getElementById("date-time-start");
-const dateTimeEnd = document.getElementById("date-time-end");
-const buttonWeek = document.getElementById("button-week");
-const buttonMonth = document.getElementById("button-month");
+export const dateTimeStart = document.getElementById("date-time-start");
+export const dateTimeEnd = document.getElementById("date-time-end");
 
-function formatDate(date) {
-  const year = date.getFullYear();
-  let month = (date.getMonth() + 1).toString();
-  let day = date.getDate().toString();
+const submitButton = document.getElementById("submitButton");
+const result = document.getElementById("count-days-result");
 
-  if (month.length < 2) {
-    month = `0${month}`;
-  }
-  if (day.length < 2) {
-    day = `0${day}`;
-  }
-  return `${year}-${month}-${day}`;
-}
-
-function addExactNumberDays(number) {
-  let dateStart = new Date(dateTimeStart.value);
-  const formatedNewDate = new Date(
-    dateStart.setDate(dateStart.getDate() + number)
+function submit() {
+  let startDay = dateTimeStart.value;
+  let finishDay = dateTimeEnd.value;
+  let countVatiableValue = document.getElementById("count-variable").value;
+  const measurementValue = document.getElementById("units-measurement").value;
+  const countedValue = countTimeBetweenDates(
+    startDay,
+    finishDay,
+    countVatiableValue,
+    measurementValue
   );
-  return formatDate(formatedNewDate);
+  result.innerText = countedValue;
 }
 
-function addWeek() {
-  dateTimeEnd.value = addExactNumberDays(7);
-}
-
-function addMonth() {
-  dateTimeEnd.value = addExactNumberDays(30);
-}
-
-function checkInput() {
-  dateTimeEnd.disabled = false;
-  // кінцева дата не може бути раніше ніж початкова
-  dateTimeEnd.min = dateTimeStart.value;
-}
-buttonWeek.addEventListener("click", addWeek);
-buttonMonth.addEventListener("click", addMonth);
+submitButton.addEventListener("click", submit);
 dateTimeStart.addEventListener("change", checkInput);
