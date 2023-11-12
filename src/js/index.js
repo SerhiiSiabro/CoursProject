@@ -5,32 +5,44 @@ const tabsContentHolder = document.getElementsByClassName(
   ".tabs-content-holder"
 );
 
-const dateTimeStart = document.querySelector("date-time-start");
-const dateTimeEnd = document.querySelector("date-time-end");
+const dateTimeStart = document.getElementById("date-time-start");
+const dateTimeEnd = document.getElementById("date-time-end");
+const buttonWeek = document.getElementById("button-week");
+const buttonMonth = document.getElementById("button-month");
 
-function durationBetweenDates(
-  startDate = Date.now(),
-  endDate = Date.now(),
-  dimension = "days"
-) {
-  let difference = Math.abs(new Date(endDate) - new Date(startDate));
+function formatDate(date) {
+  const year = date.getFullYear();
+  let month = (date.getMonth() + 1).toString();
+  let day = date.getDate().toString();
 
-  switch (dimension) {
-    case "seconds":
-      return `${difference / 1000} ${dimension}`;
-    case "minutes":
-      return `${difference / (1000 * 60)} ${dimension}`;
-    case "hours":
-      return `${difference / (1000 * 60 * 60)} ${dimension}`;
-    case "days":
-      return `${difference / (1000 * 60 * 60 * 24)} ${dimension}`;
-    default:
-      console.log(`Sorry, we cant find ${dimension}`);
+  if (month.length < 2) {
+    month = `0${month}`;
   }
+  if (day.length < 2) {
+    day = `0${day}`;
+  }
+  return `${year}-${month}-${day}`;
 }
 
-console.log(dateTimeStart);
-const sumFunc = () => {
-  console.log("hi");
-};
-dateTimeStart.addEventListener("input", sumFunc);
+function addExactNumberDays(number) {
+  let dateStart = new Date(dateTimeStart.value);
+  const formatedNewDate = new Date(
+    dateStart.setDate(dateStart.getDate() + number)
+  );
+  return formatDate(formatedNewDate);
+}
+
+function addWeek() {
+  dateTimeEnd.value = addExactNumberDays(7);
+}
+
+function addMonth() {
+  dateTimeEnd.value = addExactNumberDays(30);
+}
+
+function checkInput() {
+  dateTimeEnd.disabled = false;
+}
+buttonWeek.addEventListener("click", addWeek);
+buttonMonth.addEventListener("click", addMonth);
+dateTimeStart.addEventListener("change", checkInput);

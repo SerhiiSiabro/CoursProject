@@ -1,1 +1,1 @@
-# Projector_CoursProject
+# CoursProject
