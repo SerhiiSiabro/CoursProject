@@ -1,5 +1,5 @@
 import { checkInput } from "./date-period.js";
-import { countTimeBetweenDates } from "./count-time.js";
+import { countTimeBetweenDates } from "./date.js";
 
 const tabset = document.querySelector(".tabset");
 const tabsContentHolder = document.getElementsByClassName(".tab-time");
@@ -13,8 +13,15 @@ const result = document.getElementById("count-days-result");
 function submit() {
   let startDay = dateTimeStart.value;
   let finishDay = dateTimeEnd.value;
-  const countedTime = countTimeBetweenDates(startDay, finishDay);
-  result.innerText = countedTime;
+  let countVatiableValue = document.getElementById("count-variable").value;
+  const measurementValue = document.getElementById("units-measurement").value;
+  const countedValue = countTimeBetweenDates(
+    startDay,
+    finishDay,
+    countVatiableValue,
+    measurementValue
+  );
+  result.innerText = countedValue;
 }
 
 submitButton.addEventListener("click", submit);

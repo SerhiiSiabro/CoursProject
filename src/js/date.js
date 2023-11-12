@@ -1,11 +1,38 @@
-export function countTimeBetweenDates(firstDate, lastDate) {
+import { dateTimeStart } from "./index.js";
+
+export function formatDate(date) {
+  const year = date.getFullYear();
+  let month = (date.getMonth() + 1).toString();
+  let day = date.getDate().toString();
+
+  if (month.length < 2) {
+    month = `0${month}`;
+  }
+  if (day.length < 2) {
+    day = `0${day}`;
+  }
+  return `${year}-${month}-${day}`;
+}
+
+export function addExactNumberDays(number) {
+  let dateStart = new Date(dateTimeStart.value);
+  const formatedNewDate = new Date(
+    dateStart.setDate(dateStart.getDate() + number)
+  );
+  return formatDate(formatedNewDate);
+}
+
+export function countTimeBetweenDates(
+  firstDate,
+  lastDate,
+  countVatiableValue,
+  measurementValue
+) {
   const startDate = new Date(firstDate);
   const endDate = new Date(lastDate);
-  const countVariable = document.getElementById("count-variable").value;
-  const measurement = document.getElementById("units-measurement").value;
   let daysOption = 0;
   let timePeriodOption = 0;
-  switch (countVariable) {
+  switch (countVatiableValue) {
     case "all-days":
       daysOption = getAllDays(startDate, endDate);
       break;
@@ -18,7 +45,7 @@ export function countTimeBetweenDates(firstDate, lastDate) {
     default:
       return console.log("Wrong count variable");
   }
-  switch (measurement) {
+  switch (measurementValue) {
     case "days":
       timePeriodOption = 1;
       break;
@@ -38,7 +65,7 @@ export function countTimeBetweenDates(firstDate, lastDate) {
   // множимо обрану опцію Дня та одиницю Часу:
   const multiplyOfOptions = daysOption * timePeriodOption;
   console.log(multiplyOfOptions);
-  return multiplyOfOptions;
+  return `${multiplyOfOptions} ${measurementValue}`;
 }
 
 function getAllDays(startDate, endDate) {
@@ -57,5 +84,12 @@ function getWorkingDays(startDate, endDate) {
 }
 
 function getWeekendDays(startDate, endDate) {
-  return getAllDays(startDate, endDate) - getWorkingDays(startDate, endDate);
+  let count = 0;
+  const curDate = new Date(startDate.getTime());
+  while (curDate <= endDate) {
+    const dayOfWeek = curDate.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) count++;
+    curDate.setDate(curDate.getDate() + 1);
+  }
+  return count;
 }
