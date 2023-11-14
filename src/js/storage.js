@@ -1,7 +1,8 @@
 const STORAGE_KEY = "resultStorage";
 
-export const resultsFromStorage =
-  JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+export const resultsFromStorage = () => {
+  return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+};
 
 export const setResultToStorage = (result) => {
   const results = resultsFromStorage;

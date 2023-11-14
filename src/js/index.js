@@ -9,7 +9,7 @@ export const dateTimeStart = document.getElementById("date-time-start");
 export const dateTimeEnd = document.getElementById("date-time-end");
 
 const submitButton = document.getElementById("submitButton");
-const result = document.getElementById("count-days-result");
+const showResult = document.getElementById("count-days-result");
 
 function submit() {
   let startDay = dateTimeStart.value;
@@ -22,15 +22,36 @@ function submit() {
     countVatiableValue,
     measurementValue
   );
-  result.innerText = countedValue;
+  showResult.innerText = countedValue;
   const resultForStorage = {
     startDay,
     finishDay,
     result: countedValue,
   };
+
+  //create table
+  const newRow = document.createElement("tr");
+  tableResult.append(newRow);
+
+  let cell = document.createElement("td");
+  newRow.append(cell);
+  cell.innerText = resultForStorage.startDay;
+
+  cell = document.createElement("td");
+  newRow.append(cell);
+  cell.innerText = resultForStorage.finishDay;
+
+  cell = document.createElement("td");
+  newRow.append(cell);
+  cell.innerText = resultForStorage.result;
+
   setResultToStorage(resultForStorage);
-  const tableResult = document.getElementById("tableResult");
-  resultsFromStorage.forEach((result) => {
+}
+
+const getTasks = () => {
+  const tasks = resultsFromStorage();
+  console.log(tasks);
+  tasks.forEach((result) => {
     const newRow = document.createElement("tr");
     tableResult.append(newRow);
 
@@ -46,7 +67,10 @@ function submit() {
     newRow.append(cell);
     cell.innerText = result.result;
   });
-}
+};
+
+// Ініціалізація
+getTasks();
 
 submitButton.addEventListener("click", submit);
 dateTimeStart.addEventListener("change", checkInput);
