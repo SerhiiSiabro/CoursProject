@@ -1,6 +1,6 @@
 import { checkInput } from "./date-period.js";
 import { countTimeBetweenDates } from "./date.js";
-import { setResultToStorage, resultsFromStorage } from "./storage.js";
+import { setResultToStorage, getResultsFromStorage } from "./storage.js";
 
 const tabset = document.querySelector(".tabset");
 const tabsContentHolder = document.getElementsByClassName(".tab-time");
@@ -49,7 +49,7 @@ function submit() {
 }
 
 const getTasks = () => {
-  const tasks = resultsFromStorage();
+  const tasks = getResultsFromStorage();
   console.log(tasks);
   tasks.forEach((result) => {
     const newRow = document.createElement("tr");
