@@ -2,7 +2,7 @@ import { checkInput } from "./date-period.js";
 import { countTimeBetweenDates } from "./date.js";
 import { setResultToStorage, getResultsFromStorage } from "./storage.js";
 import { chengeTab } from "./chengeTab.js";
-import { generateYearList } from "./countryTab.js";
+import { generateYearList, yearList } from "./countryTab.js";
 import { getCountriesData, getHolidayData } from "./api.js";
 
 export const tabButtonTime = document.querySelector(".tab-button-time");
@@ -14,7 +14,8 @@ export const dateTimeEnd = document.getElementById("date-time-end");
 const submitButton = document.getElementById("submitButton");
 const showResult = document.getElementById("count-days-result");
 
-const countryList = document.querySelector("country-list");
+const countryList = document.getElementById("country-list");
+const countryListValue = document.getElementById("country-list").value;
 const holidayList = document.querySelector("holiday-list");
 
 function submit() {
@@ -66,20 +67,22 @@ generateYearList();
 
 const handledowloadedPage = async () => {
   try {
-    const data = await getCountriesData();
-    data.forEach((element) => {
-      console.log(element.country_name);
-      let county = element.country_name;
-      let newOption = document.createElement("option");
-      newOption.textContent = county;
-      newOption.value = county;
-      // console.log(element.country_name);
-      countryList.append(newOption);
-    });
+    getCountriesData()
+      .then((data) => {
+        data.forEach((key) => {
+          let county = key.country_name;
+          let newOption = document.createElement("option");
+          newOption.textContent = county;
+          newOption.value = county;
+          countryList.append(newOption);
+        });
+      })
+      .then(() => {
+        console.log(countryListValue);
+        getHolidayData(countryListValue, yearList);
+      });
   } catch (error) {
-    return;
-  } finally {
-    console.log("by");
+    console.log("error");
   }
 };
 handledowloadedPage();

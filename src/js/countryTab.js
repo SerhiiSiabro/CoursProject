@@ -1,7 +1,7 @@
-const yearList = document.getElementById("year-list");
+export const yearList = document.getElementById("year-list");
 
 export function generateYearList() {
-  const begin = new Date(2000, 0).getFullYear();
+  const begin = 2000;
   const limit = 2050;
   for (let index = begin; index < limit; index++) {
     let element = document.createElement("option");
