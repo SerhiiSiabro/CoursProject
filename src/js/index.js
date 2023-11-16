@@ -1,15 +1,21 @@
 import { checkInput } from "./date-period.js";
 import { countTimeBetweenDates } from "./date.js";
 import { setResultToStorage, getResultsFromStorage } from "./storage.js";
+import { chengeTab } from "./chengeTab.js";
+import { generateYearList } from "./countryTab.js";
+import { getCountriesData, getHolidayData } from "./api.js";
 
-const tabset = document.querySelector(".tabset");
-const tabsContentHolder = document.getElementsByClassName(".tab-time");
+export const tabButtonTime = document.querySelector(".tab-button-time");
+export const tabButtonCountry = document.querySelector(".tab-button-country");
 
 export const dateTimeStart = document.getElementById("date-time-start");
 export const dateTimeEnd = document.getElementById("date-time-end");
 
 const submitButton = document.getElementById("submitButton");
 const showResult = document.getElementById("count-days-result");
+
+const countryList = document.querySelector("country-list");
+const holidayList = document.querySelector("holiday-list");
 
 function submit() {
   let startDay = dateTimeStart.value;
@@ -29,23 +35,9 @@ function submit() {
     result: countedValue,
   };
 
-  //create table
-  const newRow = document.createElement("tr");
-  tableResult.append(newRow);
-
-  let cell = document.createElement("td");
-  newRow.append(cell);
-  cell.innerText = resultForStorage.startDay;
-
-  cell = document.createElement("td");
-  newRow.append(cell);
-  cell.innerText = resultForStorage.finishDay;
-
-  cell = document.createElement("td");
-  newRow.append(cell);
-  cell.innerText = resultForStorage.result;
-
   setResultToStorage(resultForStorage);
+  tableResult.innerHTML = "";
+  getTasks();
 }
 
 const getTasks = () => {
@@ -70,6 +62,32 @@ const getTasks = () => {
 
 // Ініціалізація
 getTasks();
+generateYearList();
+
+const handledowloadedPage = async () => {
+  try {
+    const data = await getCountriesData();
+    data.forEach((element) => {
+      console.log(element.country_name);
+      let county = element.country_name;
+      let newOption = document.createElement("option");
+      newOption.textContent = county;
+      newOption.value = county;
+      // console.log(element.country_name);
+      countryList.append(newOption);
+    });
+  } catch (error) {
+    return;
+  } finally {
+    console.log("by");
+  }
+};
+handledowloadedPage();
+getCountriesData();
+getHolidayData(2020, "Australia");
 
 submitButton.addEventListener("click", submit);
 dateTimeStart.addEventListener("change", checkInput);
+
+tabButtonTime.addEventListener("click", chengeTab);
+tabButtonCountry.addEventListener("click", chengeTab);

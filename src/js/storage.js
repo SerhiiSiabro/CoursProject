@@ -7,8 +7,7 @@ export const getResultsFromStorage = () => {
 export const setResultToStorage = (result) => {
   const results = getResultsFromStorage();
   results.push(result);
-  if (results.length > 10) {
-  }
+  results.length > 10 && results.shift();
 
   localStorage.setItem(STORAGE_KEY, JSON.stringify(results));
 };

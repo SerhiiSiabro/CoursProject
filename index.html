@@ -10,17 +10,13 @@
   <body>
     <div class="wrapper">
       <div class="tabs">
-        <div class="tabs-wrap">
-          <ul class="tabset" id="tabset">
-            <li class="tabs-item">
-              <a href="#tab1" class="tabs-btn">проміжок часу між датами</a>
-            </li>
-            <li class="tabs-item">
-              <a href="#tab2" class="tabs-btn"
-                >список свят з датами обраної країни</a
-              >
-            </li>
-          </ul>
+        <div class="tabset">
+          <div class="tab-button-time active-button">
+            <span>проміжок часу між датами</span>
+          </div>
+          <div class="tab-button-country">
+            <span>список свят з датами обраної країни</span>
+          </div>
         </div>
         <div class="tabs-holder">
           <div class="tab-time active">
@@ -65,12 +61,15 @@
               <label for="count-days-result">Результат:</label>
               <span id="count-days-result"></span>
             </div>
-            <table id="tableResult">
-              <tr>
-                <th>Cтартова дата</th>
-                <th>Кінцева дата</th>
-                <th>Результат виміру</th>
-              </tr>
+            <table>
+              <thead>
+                <tr>
+                  <th>Cтартова дата</th>
+                  <th>Кінцева дата</th>
+                  <th>Результат виміру</th>
+                </tr>
+              </thead>
+              <tbody id="tableResult"></tbody>
             </table>
           </div>
           <div class="tab-country">
@@ -84,12 +83,15 @@
                 <select name="year-list" id="year-list"></select>
               </div>
             </div>
-            <div class="holiday-list">
+            <div>
               <table>
-                <tr>
-                  <th>Назва</th>
-                  <th>Дата</th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>Назва</th>
+                    <th>Дата</th>
+                  </tr>
+                </thead>
+                <tbody id="holiday-list"></tbody>
               </table>
             </div>
           </div>
