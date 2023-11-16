@@ -1,0 +1,47 @@
+table,
+th,
+td {
+  border: 1px solid green;
+  background-color: rgba(77, 187, 47, 0.571);
+  padding: 2px;
+}
+th,
+td {
+  background-color: rgb(255, 255, 255);
+  padding: 4px;
+}
+.tabs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.tabset {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+.tab-button-time,
+.tab-button-country {
+  padding: 5px 3px;
+}
+.tab-time > div {
+  padding-bottom: 10px;
+}
+.tab-time {
+  display: none;
+}
+.tab-country {
+  display: none;
+}
+.active-button {
+  border: 1px solid rgb(128, 111, 0);
+  background-color: rgb(255, 157, 0);
+}
+.active {
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  flex-wrap: wrap;
+}
