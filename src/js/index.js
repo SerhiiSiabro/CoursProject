@@ -97,6 +97,7 @@ async function createTable() {
       return;
     }
     let holidaysList = await getHolidayData(country, year);
+    console.log(holidayList);
     while (holidayList.firstElementChild) {
       holidayList.firstElementChild.remove();
     }
@@ -130,6 +131,7 @@ getCountriesData();
 
 submitButton.addEventListener("click", submit);
 dateTimeStart.addEventListener("change", checkInput);
+dateTimeEnd.addEventListener("change", checkInput);
 
 tabButtonTime.addEventListener("click", chengeTab);
 tabButtonCountry.addEventListener("click", chengeTab);
