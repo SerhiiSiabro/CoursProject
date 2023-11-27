@@ -1,4 +1,5 @@
 import { dateTimeStart } from "./index.js";
+import { translate } from "./translations.js";
 
 export function formatDate(date) {
   const year = date.getFullYear();
@@ -61,10 +62,10 @@ export function countTimeBetweenDates(
     default:
       return console.log("Wrong measurement");
   }
-
+  const translatedMeasurementValue = translate(measurementValue, "ua");
   // множимо обрану опцію Дня та одиницю Часу:
   const multiplyOfOptions = daysOption * timePeriodOption;
-  return `${multiplyOfOptions} ${measurementValue}`;
+  return `${multiplyOfOptions} ${translatedMeasurementValue}`;
 }
 
 function getAllDays(startDate, endDate) {

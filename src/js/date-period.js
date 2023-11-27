@@ -16,6 +16,7 @@ export function checkInput() {
   dateTimeEnd.disabled = false;
   // кінцева дата не може бути раніше ніж початкова
   dateTimeEnd.min = dateTimeStart.value;
+  dateTimeStart.max = dateTimeEnd.value;
 }
 buttonWeek.addEventListener("click", addWeek);
 buttonMonth.addEventListener("click", addMonth);

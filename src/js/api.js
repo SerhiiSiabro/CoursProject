@@ -1,5 +1,5 @@
 const API_URL = "https://calendarific.com/api/v2/";
-const API_KEY = "YBBnzchhjG5ghuSn6q43oiPw0DwTfJoS";
+const API_KEY = "vdqYie0PNjc36ygxq5BHsOJ6zTMYMS2o";
 
 export const getCountriesData = async () => {
   const response = await fetch(`${API_URL}countries?api_key=${API_KEY}`);
@@ -18,9 +18,7 @@ export const getCountriesData = async () => {
 
 export const getHolidayData = async (country, year) => {
   const response = await fetch(
-    console.log(
-      `${API_URL}holidays?api_key=${API_KEY}&country=${country}&year=${year}`
-    )`${API_URL}holidays?api_key=${API_KEY}&country=${country}&year=${year}`
+    `${API_URL}holidays?&api_key=${API_KEY}&country=${country}&year=${year}`
   );
   if (!response.ok) {
     if (response.code === 404) {
