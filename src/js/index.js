@@ -1,10 +1,11 @@
-import { checkInput } from "./date-period.js";
-import { countTimeBetweenDates } from "./date.js";
+import { countTimeBetweenDates, generateYearList } from "./date.js";
 import { setResultToStorage, getResultsFromStorage } from "./storage.js";
-import { chengeTab } from "./chengeTab.js";
-import { generateYearList } from "./countryTab.js";
+import { chengeTab } from "./tab.js";
 import { getCountriesData, getHolidayData } from "./api.js";
+import { addExactNumberDays } from "./date.js";
 
+const buttonWeek = document.getElementById("button-week");
+const buttonMonth = document.getElementById("button-month");
 export const tabButtonTime = document.querySelector(".tab-button-time");
 export const tabButtonCountry = document.querySelector(".tab-button-country");
 export const dateTimeStart = document.getElementById("date-time-start");
@@ -13,8 +14,8 @@ const submitButton = document.getElementById("submitButton");
 const resultOfColculation = document.getElementById("count-days-result");
 const countryList = document.getElementById("country-list");
 export const yearList = document.getElementById("year-list");
-let yearListValue = document.getElementById("year-list").value;
 const holidayList = document.getElementById("holiday-list");
+const directionArrow = document.getElementById("direction-arrow");
 
 function submit() {
   dateTimeStart.style.background = "";
@@ -66,6 +67,53 @@ const getTasks = () => {
   });
 };
 
+function addWeek() {
+  dateTimeEnd.value = addExactNumberDays(7);
+}
+
+function addMonth() {
+  dateTimeEnd.value = addExactNumberDays(30);
+}
+
+function checkInput() {
+  dateTimeEnd.disabled = false;
+  // кінцева дата не може бути раніше ніж початкова
+  dateTimeEnd.min = dateTimeStart.value;
+  dateTimeStart.max = dateTimeEnd.value;
+}
+function convertDate(d) {
+  const p = d.split("-");
+  return +(p[0] + p[1] + p[2]);
+}
+
+function rotateTable() {
+  let direction = directionArrow.getAttribute("date-direction");
+  directionArrow.setAttribute("date-direction", direction === "<" ? ">" : "<");
+  let tbody = holidayList;
+  let rows = [].slice.call(tbody.querySelectorAll("tr"));
+  console.log(rows);
+  if (direction === ">") {
+    directionArrow.innerText = "<";
+    rows.sort(function (a, b) {
+      return (
+        convertDate(b.cells[0].innerHTML) - convertDate(a.cells[0].innerHTML)
+      );
+    });
+  }
+  if (direction === "<") {
+    directionArrow.innerText = ">";
+    rows.sort(function (a, b) {
+      return (
+        convertDate(a.cells[0].innerHTML) - convertDate(b.cells[0].innerHTML)
+      );
+    });
+  }
+
+  rows.forEach(function (v) {
+    tbody.appendChild(v); // note that .appendChild() *moves* elements
+  });
+}
+
 // Ініціалізація
 getTasks();
 generateYearList();
@@ -85,6 +133,8 @@ const fillCountriesSelect = async () => {
 };
 
 const createTable = async () => {
+  yearList.disabled = false;
+  document.getElementById("tab-country-table").hidden = false;
   let year = yearList.value;
   let countryCode = countryList.value;
   const data = await getHolidayData(countryCode, year);
@@ -110,7 +160,10 @@ fillCountriesSelect();
 submitButton.addEventListener("click", submit);
 dateTimeStart.addEventListener("change", checkInput);
 dateTimeEnd.addEventListener("change", checkInput);
+buttonWeek.addEventListener("click", addWeek);
+buttonMonth.addEventListener("click", addMonth);
 tabButtonTime.addEventListener("click", chengeTab);
 tabButtonCountry.addEventListener("click", chengeTab);
 countryList.addEventListener("change", createTable);
 yearList.addEventListener("change", createTable);
+directionArrow.addEventListener("click", rotateTable);
