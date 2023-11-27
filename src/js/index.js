@@ -7,17 +7,14 @@ import { getCountriesData, getHolidayData } from "./api.js";
 
 export const tabButtonTime = document.querySelector(".tab-button-time");
 export const tabButtonCountry = document.querySelector(".tab-button-country");
-
 export const dateTimeStart = document.getElementById("date-time-start");
 export const dateTimeEnd = document.getElementById("date-time-end");
-
 const submitButton = document.getElementById("submitButton");
-const showResult = document.getElementById("count-days-result");
-
+const resultOfColculation = document.getElementById("count-days-result");
 const countryList = document.getElementById("country-list");
-const countryListValue = document.getElementById("country-list").value;
 export const yearList = document.getElementById("year-list");
-const holidayList = document.querySelector("holiday-list");
+let yearListValue = document.getElementById("year-list").value;
+const holidayList = document.getElementById("holiday-list");
 
 function submit() {
   dateTimeStart.style.background = "";
@@ -37,7 +34,7 @@ function submit() {
     countVatiableValue,
     measurementValue
   );
-  showResult.innerText = countedValue;
+  resultOfColculation.innerText = countedValue;
   const resultForStorage = {
     startDay,
     finishDay,
@@ -73,68 +70,47 @@ const getTasks = () => {
 getTasks();
 generateYearList();
 
-const handledowloadedPage = async () => {
-  try {
-    getCountriesData().then((data) => {
-      data.forEach((key) => {
-        let county = key.country_name;
-        let newOption = document.createElement("option");
-        newOption.textContent = county;
-        newOption.value = county;
-        countryList.append(newOption);
-      });
-    });
-  } catch (error) {
-    console.log("error");
-  }
-  createTable();
+const fillCountriesSelect = async () => {
+  // Беремо дані з запиту
+  const data = await getCountriesData();
+
+  // Проходимось по кожному елементу(країні) і додаємо відповідний option у select
+  data.forEach((country) => {
+    const option = document.createElement("option");
+    option.textContent = country.country_name;
+    option.value = country["iso-3166"];
+
+    countryList.append(option);
+  });
 };
-async function createTable() {
-  try {
-    const country = countryListValue;
-    const year = yearList.value;
-    if (!country || !year) {
-      return;
-    }
-    let holidaysList = await getHolidayData(country, year);
-    console.log(holidayList);
-    while (holidayList.firstElementChild) {
-      holidayList.firstElementChild.remove();
-    }
 
-    holidaysList = holidaysList.map((holiday) => ({
-      name: holiday.name,
-      iso: holiday.date.iso.slice(0, 10),
-    }));
+const createTable = async () => {
+  let year = yearList.value;
+  let countryCode = countryList.value;
+  const data = await getHolidayData(countryCode, year);
+  let listHolidays = JSON.parse(JSON.stringify(data));
+  // Малюємо таблицю вже з цим списком свят
+  holidayList.innerHTML = "";
+  listHolidays.response.holidays.forEach((result) => {
+    let newRow = document.createElement("tr");
+    holidayList.append(newRow);
 
-    holidaysList.sort(sortByProperty("iso", isSortingDown));
-    holidaysList.forEach((holiday) => {
-      console.log(holiday);
-      let newRow = document.createElement("tr");
-      holidayList.append(newRow);
+    let cell = document.createElement("td");
+    newRow.append(cell);
+    cell.innerText = result.date.iso;
 
-      let cell = document.createElement("td");
-      newRow.append(cell);
-      cell.innerText = holiday.iso;
+    cell = document.createElement("td");
+    newRow.append(cell);
+    cell.innerText = result.name;
+  });
+};
 
-      cell = document.createElement("td");
-      newRow.append(cell);
-      cell.innerText = holiday.name;
-    });
-  } catch (error) {
-    console.log("errorCreateTable");
-  }
-}
-handledowloadedPage();
-getCountriesData();
-// createTable();
+fillCountriesSelect();
 
 submitButton.addEventListener("click", submit);
 dateTimeStart.addEventListener("change", checkInput);
 dateTimeEnd.addEventListener("change", checkInput);
-
 tabButtonTime.addEventListener("click", chengeTab);
 tabButtonCountry.addEventListener("click", chengeTab);
-
 countryList.addEventListener("change", createTable);
 yearList.addEventListener("change", createTable);
