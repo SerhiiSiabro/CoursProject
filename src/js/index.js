@@ -81,36 +81,29 @@ function checkInput() {
   dateTimeEnd.min = dateTimeStart.value;
   dateTimeStart.max = dateTimeEnd.value;
 }
-function convertDate(d) {
-  const p = d.split("-");
-  return +(p[0] + p[1] + p[2]);
+
+function byProperty(direction) {
+  switch (direction) {
+    case ">":
+      console.log(">");
+      return (a, b) => (new Date(a.date) > new Date(b.date) ? 1 : -1);
+    case "<":
+      console.log("<");
+      return (a, b) => (new Date(b.date) < new Date(a.date) ? -1 : 1);
+    default:
+      break;
+  }
 }
 
 function rotateTable() {
-  let direction = directionArrow.getAttribute("date-direction");
+  const direction = directionArrow.getAttribute("date-direction");
   directionArrow.setAttribute("date-direction", direction === "<" ? ">" : "<");
   let tbody = holidayList;
-  let rows = [].slice.call(tbody.querySelectorAll("tr"));
+  let rows = [...tbody.querySelectorAll("tr")];
+  rows.sort(byProperty(direction));
   console.log(rows);
-  if (direction === ">") {
-    directionArrow.innerText = "<";
-    rows.sort(function (a, b) {
-      return (
-        convertDate(b.cells[0].innerHTML) - convertDate(a.cells[0].innerHTML)
-      );
-    });
-  }
-  if (direction === "<") {
-    directionArrow.innerText = ">";
-    rows.sort(function (a, b) {
-      return (
-        convertDate(a.cells[0].innerHTML) - convertDate(b.cells[0].innerHTML)
-      );
-    });
-  }
-
-  rows.forEach(function (v) {
-    tbody.appendChild(v); // note that .appendChild() *moves* elements
+  rows.forEach((element) => {
+    tbody.appendChild(element);
   });
 }
 
