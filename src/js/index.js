@@ -82,26 +82,28 @@ function checkInput() {
   dateTimeStart.max = dateTimeEnd.value;
 }
 
-function byProperty(direction) {
-  switch (direction) {
-    case ">":
-      console.log(">");
-      return (a, b) => (new Date(a.date) > new Date(b.date) ? 1 : -1);
-    case "<":
-      console.log("<");
-      return (a, b) => (new Date(b.date) < new Date(a.date) ? -1 : 1);
-    default:
-      break;
-  }
-}
-
 function rotateTable() {
   const direction = directionArrow.getAttribute("date-direction");
   directionArrow.setAttribute("date-direction", direction === "<" ? ">" : "<");
+  directionArrow.classList.toggle("direction-arrow-reverse");
   let tbody = holidayList;
   let rows = [...tbody.querySelectorAll("tr")];
-  rows.sort(byProperty(direction));
-  console.log(rows);
+  rows.sort((a, b) => {
+    switch (direction) {
+      case "<":
+        return new Date(a.cells[0].textContent) >
+          new Date(b.cells[0].textContent)
+          ? 1
+          : -1;
+      case ">":
+        return new Date(b.cells[0].textContent) <
+          new Date(a.cells[0].textContent)
+          ? -1
+          : 1;
+      default:
+        break;
+    }
+  });
   rows.forEach((element) => {
     tbody.appendChild(element);
   });
