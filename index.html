@@ -86,19 +86,28 @@
             <div class="country-form">
               <div class="country-block">
                 <label for="country-list">Оберіть країну</label>
-                <select name="country-list" id="country-list"></select>
+                <select name="country-list" id="country-list">
+                  <option value="">Оберіть країну</option>
+                </select>
               </div>
               <div class="year-block">
                 <label for="year-list">Оберіть рік</label>
-                <select name="year-list" id="year-list"></select>
+                <select disabled name="year-list" id="year-list"></select>
               </div>
             </div>
             <div>
-              <table>
+              <table id="tab-country-table" hidden>
                 <thead>
                   <tr>
+                    <th>
+                      Дата<span
+                        class="direction-arrow"
+                        id="direction-arrow"
+                        date-direction=">"
+                        >></span
+                      >
+                    </th>
                     <th>Назва</th>
-                    <th>Дата</th>
                   </tr>
                 </thead>
                 <tbody id="holiday-list"></tbody>

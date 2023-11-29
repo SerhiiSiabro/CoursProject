@@ -45,3 +45,17 @@ td {
   align-content: space-around;
   flex-wrap: wrap;
 }
+.direction-arrow {
+  margin: 0 0 0 5px;
+  display: inline-block;
+  transform: rotate(90deg);
+}
+.direction-arrow-reverse {
+  margin: 0 0 0 5px;
+  display: inline-block;
+  transform: rotate(270deg);
+}
+.direction-arrow:hover {
+  cursor: pointer;
+  color: blue;
+}
